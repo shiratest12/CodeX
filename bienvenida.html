@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codex Inicio</title>
+    <script type="module" src="firebase.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+   
+    <link href="navbarlogicacss.css" rel="stylesheet">
+
+
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            
+            --text-color: #34495e;
+        }
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+        }
+        .welcome-card {
+           
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-top: 50px;
+            border-left: 5px solid var(--primary-color);
+        }
+        .game-container {
+            
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-top: 30px;
+        }
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+        .btn-game {
+            background-color: var(--secondary-color);
+            border: none;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+        .btn-game:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+        #maze {
+            border: 2px solid var(--primary-color);
+        }
+        #code-area {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+        }
+        .instructions {
+           
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--secondary-color);
+        }
+        .rps-btn {
+            font-size: 24px;
+            margin: 0 10px;
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .rps-btn:hover {
+            background-color: #c0392b;
+            color: white;
+        }
+        #rps-result, #rps-score {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="container">
+        <div class="row welcome-card">
+            <div class="col-md-12">
+                <h1 class="mb-4">¡Bienvenido!</h1>
+                <p class="lead">Gracias por iniciar sesion </p>
+            </div>
+        </div>
+
+        <div class="row game-container">
+            <div class="col-md-12">
+                <h2 class="text-center mb-4">Sección de Juegos</h2>
+                <div class="instructions">
+                    <h4>Instrucciones:</h4>
+                    <p><strong>Laberinto de Lógica:</strong> Escribe código para mover al jugador por el laberinto. Usa las funciones avanzar(), girarDerecha() y girarIzquierda().</p>
+                    <p><strong>Piedra, Papel, Tijeras:</strong> Elige tu jugada haciendo clic en los botones</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="text-center mb-3">Laberinto de Lógica</h3>
+                        <canvas id="maze" width="300" height="300" class="mb-3 mx-auto d-block"></canvas>
+                        <textarea id="code-area" class="form-control mb-3" placeholder="Escribe tu código aquí...
+Ejemplo:
+avanzar()
+girarDerecha()
+avanzar()
+girarIzquierda()
+avanzar()"></textarea>
+                        <button id="run-btn" class="btn btn-game w-100">Ejecutar Código</button>
+                        <button id="reset-btn" class="btn btn-secondary w-100 mt-2">Reiniciar</button>
+                        <div id="message" class="mt-3 text-center"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="text-center mb-3">Piedra, Papel, Tijeras </h3>
+                        <div id="rps-game" class="text-center">
+                            <p>Elige tu jugada:</p>
+                            <button class="btn rps-btn" onclick="playRPS('rock')">✊</button>
+                            <button class="btn rps-btn" onclick="playRPS('paper')">✋</button>
+                            <button class="btn rps-btn" onclick="playRPS('scissors')">✌️</button>
+                            <p id="rps-result" class="mt-3"></p>
+                            <p id="rps-score" class="mt-2"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Código del Laberinto
+        const canvas = document.getElementById('maze');
+        const ctx = canvas.getContext('2d');
+        const codeArea = document.getElementById('code-area');
+        const runBtn = document.getElementById('run-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const messageDiv = document.getElementById('message');
+
+        const maze = [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 2, 1]
+        ];
+
+        const tileSize = 30;
+        let playerX = 1;
+        let playerY = 1;
+        let playerDir = 0; // 0: right, 1: down, 2: left, 3: up
+
+        function drawMaze() {
+            for (let y = 0; y < maze.length; y++) {
+                for (let x = 0; x < maze[y].length; x++) {
+                    if (maze[y][x] === 1) {
+                        ctx.fillStyle = '#3498db';
+                        ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+                    } else if (maze[y][x] === 2) {
+                        ctx.fillStyle = '#2ecc71';
+                        ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+                    }
+                }
+            }
+        }
+
+        function drawPlayer() {
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            const centerX = (playerX + 0.5) * tileSize;
+            const centerY = (playerY + 0.5) * tileSize;
+            ctx.arc(centerX, centerY, tileSize / 3, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            switch (playerDir) {
+                case 0: ctx.lineTo(centerX + tileSize / 3, centerY); break;
+                case 1: ctx.lineTo(centerX, centerY + tileSize / 3); break;
+                case 2: ctx.lineTo(centerX - tileSize / 3, centerY); break;
+                case 3: ctx.lineTo(centerX, centerY - tileSize / 3); break;
+            }
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function updateGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawMaze();
+            drawPlayer();
+        }
+
+        function avanzar() {
+            let newX = playerX;
+            let newY = playerY;
+            switch (playerDir) {
+                case 0: newX++; break;
+                case 1: newY++; break;
+                case 2: newX--; break;
+                case 3: newY--; break;
+            }
+            if (maze[newY][newX] !== 1) {
+                playerX = newX;
+                playerY = newY;
+            }
+            updateGame();
+        }
+
+        function girarDerecha() {
+            playerDir = (playerDir + 1) % 4;
+            updateGame();
+        }
+
+        function girarIzquierda() {
+            playerDir = (playerDir - 1 + 4) % 4;
+            updateGame();
+        }
+
+        function checkWin() {
+            if (maze[playerY][playerX] === 2) {
+                messageDiv.textContent = '¡Felicidades! Has llegado a la meta.';
+                messageDiv.style.color = '#2ecc71';
+            }
+        }
+
+        function runCode() {
+            const code = codeArea.value;
+            const lines = code.split('\n');
+            let lineIndex = 0;
+
+            function executeLine() {
+                if (lineIndex < lines.length) {
+                    const line = lines[lineIndex].trim();
+                    switch (line) {
+                        case 'avanzar()':
+                            avanzar();
+                            break;
+                        case 'girarDerecha()':
+                            girarDerecha();
+                            break;
+                        case 'girarIzquierda()':
+                            girarIzquierda();
+                            break;
+                    }
+                    lineIndex++;
+                    setTimeout(executeLine, 500);
+                } else {
+                    checkWin();
+                }
+            }
+
+            executeLine();
+        }
+
+        function resetGame() {
+            playerX = 1;
+            playerY = 1;
+            playerDir = 0;
+            messageDiv.textContent = '';
+            updateGame();
+        }
+
+        runBtn.addEventListener('click', runCode);
+        resetBtn.addEventListener('click', resetGame);
+
+        updateGame();
+
+        
+        let playerScore = 0;
+        let aiScore = 0;
+        const moves = ['rock', 'paper', 'scissors'];
+        const moveHistory = [];
+
+        function playRPS(playerMove) {
+            const aiMove = predictNextMove();
+            const result = determineWinner(playerMove, aiMove);
+            updateScore(result);
+            displayResult(playerMove, aiMove, result);
+            moveHistory.push(playerMove);
+        }
+
+        function predictNextMove() {
+            if (moveHistory.length < 3) {
+                return moves[Math.floor(Math.random() * 3)];
+            }
+
+            const lastThreeMoves = moveHistory.slice(-3);
+            const pattern = lastThreeMoves.join(',');
+            const patternCounts = {};
+
+            for (let i = 0; i < moveHistory.length - 3; i++) {
+                const currentPattern = moveHistory.slice(i, i + 3).join(',');
+                const nextMove = moveHistory[i + 3];
+                
+                if (currentPattern === pattern) {
+                    patternCounts[nextMove] = (patternCounts[nextMove] || 0) + 1;
+                }
+            }
+
+            let predictedMove = moves[Math.floor(Math.random() * 3)];
+            let maxCount = 0;
+
+            for (const move in patternCounts) {
+                if (patternCounts[move] > maxCount) {
+                    maxCount = patternCounts[move];
+                    predictedMove = move;
+                }
+            }
+
+            return moves[(moves.indexOf(predictedMove) + 1) % 3];
+        }
+
+        function determineWinner(playerMove, aiMove) {
+            if (playerMove === aiMove) return 'tie';
+            if ((playerMove === 'rock' && aiMove === 'scissors') ||
+                (playerMove === 'paper' && aiMove === 'rock') ||
+                (playerMove === 'scissors' && aiMove === 'paper')) {
+                return 'player';
+            }
+            return 'ai';
+        }
+
+        function updateScore(result) {
+            if (result === 'player') playerScore++;
+            if (result === 'ai') aiScore++;
+        }
+
+        function displayResult(playerMove, aiMove, result) {
+            const resultElement = document.getElementById('rps-result');
+            const scoreElement = document.getElementById('rps-score');
+            
+            let resultText = `Tú: ${getEmoji(playerMove)} vs IA: ${getEmoji(aiMove)} - `;
+            if (result === 'tie') resultText += 'Empate';
+            if (result === 'player') resultText += '¡Ganaste!';
+            if (result === 'ai') resultText += 'La IA ganó';
+
+            resultElement.textContent = resultText;
+            scoreElement.textContent = `Puntuación: Tú ${playerScore} - ${aiScore} IA`;
+        }
+
+        function getEmoji(move) {
+            if (move === 'rock') return '✊';
+            if (move === 'paper') return '✋';
+            if (move === 'scissors') return '✌️';
+        }
+    </script>
+       <!-- navbar -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module">
+    import { initializeNavbar } from './navbarlogica.js';
+    initializeNavbar();</script>
+</body>
+</html>

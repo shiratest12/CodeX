@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CodeX - Contáctanos</title>
+    <script type="module" src="firebase.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css?h=254a09188e530cb03e8e344c8d2feb3e">
+    <link rel="stylesheet" href="assets/css/Lato.css?h=c79024e62121e8a75d3b1d81e88bd32e">
+    <link rel="stylesheet" href="assets/css/baguetteBox.min.css?h=cd0f778148efbd9a6da168a5fc542cea">
+    <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css?h=b1904b38fb5db9c70aa0a0b48e09a39c">
+    <link rel="stylesheet" href="assets/css/bootstrap/css/bootstrap.min.css?h=c44bd72f2b10c874f9de87bd1c848b5c">
+    <link rel="stylesheet" href="assets/css/css/pikaday.min.css?h=a9ab8ca627aa6e8f64b730ca9c2c781d">
+    <script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script type="text/javascript">
+  emailjs.init('p0oT9lXyPH_Vu1ND3')
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<link href="navbarlogicacss.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap/css/bootstrap.min-1.css?h=481fe53ea19d91b8df127604189d8104">
+   
+  
+<style>
+ /* Estilos  para la página de contacto */
+.study-contact-page {
+    --contact-primary-color: #ff6b6b;
+    --contact-secondary-color: #4ecdc4;
+    
+    --contact-text-light: #f1e6e6;
+    
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+ 
+}
+
+.study-contact-page .contact-form-container {
+    background-color: var(--contact-bg-light);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+.study-contact-page .block-heading {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.study-contact-page .block-heading h2 {
+    color: var(--contact-primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.study-contact-page .block-heading p {
+    color: var(--contact-secondary-color);
+    font-size: 1.1rem;
+}
+
+.study-contact-page .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.study-contact-page .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--contact-secondary-color);
+    font-weight: bold;
+}
+
+.study-contact-page .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--contact-secondary-color);
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.study-contact-page .form-control:focus {
+    outline: none;
+    border-color: var(--contact-primary-color);
+}
+
+.study-contact-page .btn-submit {
+    background-color: var(--contact-primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.study-contact-page .btn-submit:hover {
+    background-color: #ff8787;
+}
+
+.study-contact-page #status-message {
+    margin-left: 1rem;
+    font-weight: bold;
+}
+.btn-yellow {
+    background-color: #FFC107 !important;
+   
+}
+@media (max-width: 768px) {
+    .study-contact-page {
+        padding: 1rem;
+    }
+    .study-contact-page .contact-form-container {
+        padding: 1.5rem;
+    }
+    .study-contact-page .block-heading h2 {
+        font-size: 2rem;
+    }
+}
+
+
+ </style>
+ <div id="navbar-container"></div>  </head>
+<body>
+
+ 
+  <main class="study-contact-page">
+    <div class="contact-form-container">
+        <div class="block-heading">
+            <h2>Contactar</h2>
+            <p>¿Tienes dudas o problemas? ¡Déjanos un mensaje!</p>
+        </div>
+        <form id="contact-form">
+            <div class="form-group">
+                <label class="form-label" for="name">Nombre</label>
+                <input class="form-control" type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="subject">Asunto</label>
+                <input class="form-control" type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-control" type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="message">Mensaje</label>
+                <textarea class="form-control" id="message" name="message" required></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn-submit" type="submit" id="button">Enviar</button>
+                <span id="status-message"></span>
+            </div>
+        </form>
+    </div>
+</main>
+    <div id="footer"></div>
+
+    
+    
+
+    <script type="module" src="footer.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js?h=e55bde7d6e36ebf17ba0b8c1e80e4065"></script>
+    <script src="assets/js/baguetteBox.min.js?h=add865daffd8b6e10264279f48d8ac50"></script>
+    <script src="assets/js/vanilla-zoom.js?h=6a37ea9c996b05f763161c73127d66bc"></script>
+    <script src="assets/js/theme.js?h=a083aeb15550c5e1266c666e8a5846d9"></script>
+    <script src="assets/js/bootstrap/js/bootstrap.min.js?h=d2f2ef0051cf284637b29bb4678c1b81"></script>
+    <script src="assets/js/js/pikaday.min.js?h=039feef26d52ebc5f1260a47208bfa38"></script>
+    <script src="assets/js/js/theme.js?h=aeddb9c3ce5d77b8278c91c07acf30ad"></script>
+    <script type="module" src="contactus.js"></script>
+           <!-- navbar -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module">
+    import { initializeNavbar } from './navbarlogica.js';
+    initializeNavbar();</script>
+</body>
+
+</html>

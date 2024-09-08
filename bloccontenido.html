@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeX - Blog</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="module" src="firebase.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+<script type="module" src="knn.js"> </script>
+<script type="module" src="naivebayes.js"> </script>
+<style>
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #2ecc71;
+        --accent-color: #e74c3c;
+        --background-color: #ecf0f1;
+        --text-color: #34495e;
+        --card-bg: #ffffff; 
+        --color-light: white;
+        --color-dark: black;
+    }
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        background-color: var(--card-bg);
+        overflow: hidden;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .card-header {
+        background-color: var(--primary-color);
+        color: white;
+        border-bottom: none;
+    }
+    .recommendation-card {
+        border-left: 5px solid var(--secondary-color);
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        margin-bottom: 10px;
+        width: 200px;
+        height: 250px;
+    }
+    .recommendation-card img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    .recommendation-card .recommendation-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .recommendation-card h5 {
+        margin-bottom: 5px;
+        font-size: 1em;
+    }
+    .recommendation-card p {
+        margin-bottom: 10px;
+        font-size: 0.8em;
+        flex-grow: 1;
+    }
+    .recommendation-card .btn {
+        align-self: flex-start;
+    }
+    .innovative-border {
+        border-top: 3px solid var(--accent-color);
+    }
+    .category-badge {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+    .difficulty-container {
+        background-color: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+    }
+    .difficulty-container:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .difficulty-meter {
+        height: 10px;
+        background-color: #b7cae6;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+    .difficulty-fill {
+        height: 100%;
+        border-radius: 5px;
+        transition: width 0.5s ease-in-out;
+    }
+    .difficulty-beginner .difficulty-fill { 
+        background-color: #27ae60; 
+        width: 33%; 
+    }
+    .difficulty-intermediate .difficulty-fill { 
+        background-color: #f39c12; 
+        width: 66%; 
+    }
+    .difficulty-advanced .difficulty-fill { 
+        background-color: #c0392b; 
+        width: 100%; 
+    }
+    .difficulty-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .code-example {
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 15px;
+    }
+    .code-example pre {
+        margin-bottom: 0;
+    }
+    .current-blog-card {
+        background-color: rgb(169, 226, 226);
+    }
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        z-index: 1000;
+        max-width: 80%;
+        max-height: 80%;
+        overflow-y: auto;
+    }
+    .popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+    .recommendations-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 15px 0;
+    }
+    
+    #back-button {
+      background-color: var(--title-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+           
+
+        }
+      body.light-mode {
+  --button-color: var(--color-dark);
+        }
+
+
+      body.dark-mode {
+   --button-color: var(--color-light);
+      }
+
+ #back-button {
+  color: var(--button-color);
+}
+        #back-button:hover {
+            background-color: #0762bd;
+            transform: translateY(-3px);
+        }
+        #naiveInfoBtn {
+            color: white;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+        #naiveInfo {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            z-index: 1000;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        #knnInfo {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            z-index: 1000;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        #knnInfoBtn {
+            color: white;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+        .card-title {
+        margin-bottom: 0;
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
+<script type="module" src="blog2.js"></script>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+   
+<link href="navbarlogicacss.css" rel="stylesheet">
+
+
+</head>
+<body>
+    <div id="navbar-container"></div>
+    <div class="container">
+        <a href="blog2.html" id="back-button" class="btn btn-primary mb-4">
+            <i class="bx bx-arrow-back me-2"></i> Regresar
+        </a>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4 innovative-border">
+                    <div class="card-header">
+                        <h1 id="blog-title" class="card-title h3 mb-0"></h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span id="blog-category" class="badge rounded-pill category-badge"></span>
+                        </div>
+                        <div class="difficulty-container">
+                            <div class="difficulty-label d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-chart-line me-2"></i> Dificultad:</span>
+                                <span id="blog-difficulty"></span>
+                            </div>
+                            <div class="difficulty-meter">
+                                <div class="difficulty-fill" id="blog-difficulty-meter"></div>
+                            </div>
+                        </div>
+                        <div id="blog-longDescription" class="mt-3"></div>
+                        <h3 class="mt-4"><i class="fas fa-lightbulb me-2"></i> Ejemplo:</h3>
+                        <div id="blog-example" class="code-example mt-2"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card mb-4 innovative-border current-blog-card">
+                    <div class="card-header">
+                        <h2 class="card-title h4 mb-0"><i class="fas fa-book me-2"></i> Blog Actual</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="current-blog"></div>
+                        <div id="current-blogknn"></div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+   <div class="row mt-4">
+        <div class="col-12">
+            <div class="card innovative-border">
+                <div class="card-header"> 
+                <h2 class="card-title h4 mb-0"><i class="fas fa-thumbs-up me-2"></i>Recomendaciones orincioales</h2>
+                <button class="btn btn-link" id="knnInfoBtn" data-bs-toggle="collapse" data-bs-target="#knnInfo" aria-expanded="false" aria-controls="knnInfo">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                </div>
+                <div class="card-body">
+                    <div class="recommendations-container" id="recommendationsknn"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+<div id="knnInfo">
+    <span class="close-btn">&times;</span>
+    <canvas id="similarityChartknn"></canvas>
+    <canvas id="difficultyChartknn"></canvas>
+    <div id="explanationknn"></div>
+    <div id="mathFormulaknn"></div>
+    <div id="cross-validation-results"></div>
+    
+    
+</div>
+
+
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card innovative-border">
+            <div class="card-header">
+                <h2 class="card-title h4 mb-0"><i class="fas fa-thumbs-up me-2"></i>Recomendaciones naive</h2>
+                <button class="btn btn-link" id="naiveInfoBtn" data-bs-toggle="collapse" data-bs-target="#naiveInfo" aria-expanded="false" aria-controls="naiveInfo">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+             </div>
+            <div class="card-body">
+                <div class="recommendations-container" id="recommendations"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="naiveInfo">
+    <span class="close-btn">&times;</span>
+    <canvas id="similarityChart"></canvas>
+    <div id="precision-naive"></div>
+    <canvas id="difficultyChart"></canvas>
+    <div id="explanation"></div>
+    <div id="mathFormula"></div>
+    
+
+
+    <div id="evaluation-results">
+        <div id="evaluation-results-naive">
+            <h2><i class="fas fa-chart-line me-2"></i>Evaluación del Sistema de Recomendación (Naive Bayes)</h2>
+            <ul>
+            
+                <li><strong>Validación Cruzada:</strong> <span id=" "></span></li> </ul>
+    </div>
+</div>
+   
+
+    <script> 
+       document.addEventListener('DOMContentLoaded', function() {
+            const knnInfoBtn = document.getElementById('knnInfoBtn');
+            const knnInfo = document.getElementById('knnInfo');
+            const closeBtn = knnInfo.querySelector('.close-btn');
+
+            knnInfoBtn.addEventListener('click', function() {
+                knnInfo.style.display = 'block';
+            });
+
+            closeBtn.addEventListener('click', function() {
+                knnInfo.style.display = 'none';
+            });  });
+//naive
+document.addEventListener('DOMContentLoaded', function() {
+    const naiveInfoBtn = document.getElementById('naiveInfoBtn');
+    const naiveInfo = document.getElementById('naiveInfo');
+    const closeBtn = naiveInfo.querySelector('.close-btn');
+
+    naiveInfoBtn.addEventListener('click', function() {
+        naiveInfo.style.display = 'block';
+        
+    });
+
+    closeBtn.addEventListener('click', function() {
+        naiveInfo.style.display = 'none';
+    });
+});
+ </script>
+
+
+
+
+
+
+  <!-- navbar -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+      import { initializeNavbar } from './navbarlogica.js';
+      initializeNavbar();
+  </script>
+</body>
+</html>

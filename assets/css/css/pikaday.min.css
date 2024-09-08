@@ -1,0 +1,689 @@
+/* !
+ * Pikaday
+ * Copyright © 2014 David Bushell | BSD & MIT license | http://dbushell.com/ */
+ #togglePassword {
+  margin-right: 15px;
+}
+
+.page-footer {
+  padding: 10px 0; /* Ajusta el padding superior e inferior a tu gusto */
+}
+
+.footer-copyright {
+  padding: 5px 0; /* Ajusta el padding superior e inferior a tu gusto */
+}
+
+ .imageblog {
+  display: flex; /* Habilita flexbox */
+  justify-content: center; /* Centra los elementos hijos horizontalmente */
+  align-items: center; /* Centra los elementos hijos verticalmente */
+  height: 100%; /* Asegura que el contenedor tenga altura */
+}
+.pika-single {
+  z-index: 9999;
+  display: block;
+  position: relative;
+  color: #333;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-bottom-color: #bbb;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.rhombus {
+  width: 10px; /* Adjust size as needed */
+  height: 10px;
+  border: 1px solid #000; 
+  transform: rotate(45deg); /* Rotate the rhombus */
+}
+
+.list-with-rhombus p {
+  line-height: 15px; /* Adjust as needed */
+  margin-top: 5px; /* Adjust as needed */
+}
+
+.imagen-responsiva {
+  max-width: 60%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.pika-single:after, .pika-single:before {
+  content: " ";
+  display: table;
+}
+
+.pika-single:after {
+  clear: both;
+}
+
+.pika-single.is-hidden {
+  display: none;
+}
+
+.pika-single.is-bound {
+  position: absolute;
+  box-shadow: 0 5px 15px -5px rgba(0,0,0,.5);
+}
+
+.pika-lendar {
+  float: left;
+  width: 240px;
+  margin: 8px;
+}
+
+.pika-title {
+  position: relative;
+  text-align: center;
+}
+
+.pika-label {
+  display: inline-block;
+  position: relative;
+  z-index: 9999;
+  overflow: hidden;
+  margin: 0;
+  padding: 5px 3px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  background-color: #fff;
+}
+
+.pika-title select {
+  cursor: pointer;
+  position: absolute;
+  z-index: 9998;
+  margin: 0;
+  left: 0;
+  top: 5px;
+  opacity: 0;
+}
+
+.pika-next, .pika-prev {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  outline: 0;
+  border: 0;
+  padding: 0;
+  width: 20px;
+  height: 30px;
+  text-indent: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: transparent;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 75% 75%;
+  opacity: .5;
+}
+
+.pika-next:hover, .pika-prev:hover {
+  opacity: 1;
+}
+
+.is-rtl .pika-next, .pika-prev {
+  float: left;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==);
+}
+
+.is-rtl .pika-prev, .pika-next {
+  float: right;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=);
+}
+
+.pika-next.is-disabled, .pika-prev.is-disabled {
+  cursor: default;
+  opacity: .2;
+}
+
+.pika-select {
+  display: inline-block;
+}
+
+.pika-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 0;
+}
+
+.pika-table td, .pika-table th {
+  width: 14.285714285714286%;
+  padding: 0;
+}
+
+.pika-table th {
+  color: #999;
+  font-size: 12px;
+  line-height: 25px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.pika-button {
+  cursor: pointer;
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  width: 100%;
+  padding: 5px;
+  color: #666;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: right;
+  background: #f5f5f5;
+}
+
+.pika-week {
+  font-size: 11px;
+  color: #999;
+}
+
+.is-today .pika-button {
+  color: #3af;
+  font-weight: 700;
+}
+
+.has-event .pika-button, .is-selected .pika-button {
+  color: #fff;
+  font-weight: 700;
+  background: #3af;
+  box-shadow: inset 0 1px 3px #178fe5;
+  border-radius: 3px;
+}
+
+.has-event .pika-button {
+  background: #005da9;
+  box-shadow: inset 0 1px 3px #0076c9;
+}
+
+.is-disabled .pika-button, .is-inrange .pika-button {
+  background: #d5e9f7;
+}
+
+.is-startrange .pika-button {
+  color: #fff;
+  background: #6cb31d;
+  box-shadow: none;
+  border-radius: 3px;
+}
+
+.is-endrange .pika-button {
+  color: #fff;
+  background: #3af;
+  box-shadow: none;
+  border-radius: 3px;
+}
+
+.is-disabled .pika-button {
+  pointer-events: none;
+  cursor: default;
+  color: #999;
+  opacity: .3;
+}
+
+.is-outside-current-month .pika-button {
+  color: #999;
+  opacity: .3;
+}
+
+.is-selection-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.pika-button:hover, .pika-row.pick-whole-week:hover .pika-button {
+  color: #fff;
+  background: #ff8000;
+  box-shadow: none;
+  border-radius: 3px;
+}
+
+.pika-table abbr {
+  border-bottom: none;
+  cursor: help;
+}
+/* # divclass tabla problem quizz */
+.status-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.status-indicator.completed {
+  background-color: green;
+}
+
+/* Add a default color for non-completed status (optional) */
+.status-indicator:not(.completed) {
+  background-color: gray;
+}
+
+
+table th {
+  font-weight: bold;
+}
+
+.quiz-name {
+  font-weight: bold;
+  color: #333; /* Default text color */
+}
+
+.quiz-name.easy {
+  color: #4CAF50; /* Green for easy */
+}
+
+.quiz-name.medium {
+  color: #FFFF00; /* Yellow for medium */
+}
+
+.quiz-name.hard {
+  color: #FF0000; /* Red for hard */
+}
+
+
+/* # sourceMappingURL=pikaday.min.css.map */
+
+.page-footer .links a {
+  font-size: 1.2rem;
+}
+
+.portfolio-block.cv .group .item {
+  border-bottom: 1px solid var(--bs-dark-bg-subtle);
+}
+/* Estilos para la barra lateral */
+.sidebar {
+  width: 250px;
+  background-color: #f8f9fa;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  z-index: 1;
+
+  margin-bottom: 30px;
+}
+
+.sidebar a::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+
+  margin-right: 5px;
+  border-radius: 50%;
+  background-color: #9C27B0; /* Color morado */
+}
+
+/* Estilos para el contenido principal */
+.project-page {
+  margin-left: 250px; /* Ancho de la barra lateral */
+  padding: 20px; /* Espacio interno para el contenido */
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .sidebar {
+      display: none;
+  }
+  .project-page {
+      margin-left: 0; /* Restablecer el margen para pantallas pequeñas */
+  }
+}
+
+
+/* Estilos para los enlaces */
+.sidebar a {
+  display: block;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: #333; /* Color del texto */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: background-color 0.3s; /* Transición suave al pasar el ratón */
+}
+
+/* Estilos para los enlaces cuando se les pasa el ratón por encima */
+.sidebar a:hover {
+  background-color: #ddd; /* Color de fondo al pasar el ratón */
+  color: #000; /* Color del texto al pasar el ratón */
+}
+.containerpro {
+  margin-left: 0; 
+
+}
+/* styles.css  barra arriba* /
+
+/* Estilo para el navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f8f8;
+ 
+  position: fixed; /* Fijar la barra de navegación en la parte superior  padding: 10px 20px;*/
+  top: 0; /* Posiciona la barra en la parte superior */
+}
+
+/* Estilo para el logotipo */
+.navbar-brand a {
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Estilo para los enlaces de navegación */
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-right: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+}
+
+/* Media query para pantallas pequeñas */
+@media screen and (max-width: 600px) {
+  .nav-links {
+      display: none;
+  }
+}
+
+/*Estilos para el quizz */
+
+.panel{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.question-container{
+  margin: 10px;
+  padding: 5px;
+  width: 80vw;
+  height: 10vh;
+  background-color: #c7dddf;
+  font-size: x-large;
+  text-align: center;
+    
+}
+.result{
+  margin: 10px;
+  padding: 5px;
+  width:80vw;
+  height: 10vh;
+  text-align: center;
+  font-size: 50px;
+    
+}
+.option-container{
+  display: flex;
+  justify-content: space-around; 
+  margin: 10px;
+  padding: 5px;
+  width: 80vw;
+  height: 20vh;
+  background-color: #9eb1b3;   
+      
+}
+.option{    
+  padding: 10px;
+  width: 15vw;
+  height: 10vh;
+  font-size: larger;
+  background-color: lightskyblue;
+  border-radius: 25%;
+}
+.option:hover{
+  background-color: lightgoldenrodyellow;
+}
+.navigation{
+  width: 80vw;
+  height: 10vh;
+  margin: 10px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-around;
+  background-color:#c7dddf;
+}
+
+.evaluate,.next{
+  width:30vw;
+  height: 8vh;
+  padding: 5px;
+  font-size: larger;
+}
+.evaluate{
+  
+  background-color: #50DBB4;
+}
+.next{
+  color: white;
+  background-color: #BF3325;
+}
+
+/* Estilos específicos para elementos */
+/*Estilos para el quizz */
+
+.panel{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.question-container{
+  margin: 10px;
+  padding: 5px;
+  width: 80vw;
+  height: 10vh;
+  background-color: #c7dddf;
+  font-size: x-large;
+  text-align: center;
+    
+}
+.result{
+  margin: 10px;
+  padding: 5px;
+  width:80vw;
+  height: 10vh;
+  text-align: center;
+  font-size: 50px;
+    
+}
+.option-container{
+  display: flex;
+  justify-content: space-around; 
+  margin: 10px;
+  padding: 5px;
+  width: 80vw;
+  height: 20vh;
+  background-color: #9eb1b3;   
+      
+}
+.option{    
+  padding: 10px;
+  width: 15vw;
+  height: 10vh;
+  font-size: larger;
+  background-color: lightskyblue;
+  border-radius: 25%;
+}
+.option:hover{
+  background-color: lightgoldenrodyellow;
+}
+.navigation{
+  width: 80vw;
+  height: 10vh;
+  margin: 10px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-around;
+  background-color:#c7dddf;
+}
+
+.evaluate,.next{
+  width:30vw;
+  height: 8vh;
+  padding: 5px;
+  font-size: larger;
+}
+.evaluate{
+  
+  background-color: #50DBB4;
+}
+.next{
+  color: white;
+  background-color: #BF3325;
+}
+
+/* Estilos específicos para elementos */
+.startBtn
+{
+    font-size: xx-large !important;
+    border-radius: 80px !important;
+    padding: 50px !important;
+    border: none !important;
+    margin: 20px !important;
+    transition: 500ms;
+}
+#mainDiv
+{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#body 
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;   
+}
+#quiz
+{
+    width: 800px;
+    height: 400px;
+    background-color: #fff;
+    display: grid;
+    grid-template-rows: 60px auto;
+    border-radius: 30px;
+}
+#quizHeader, #header
+{
+    height: 60px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    box-shadow: 0 2px 5px 1px rgba(0,0,0,0.3);
+    z-index: 1;
+}
+#quizHeader
+{
+    width: 800px;
+}
+#header
+{
+    justify-content: center;
+}
+#quizBody
+{
+    background-color: rgb(211, 209, 209);
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding: 10px 20px;
+}
+#timer
+{
+    color: white;
+    padding: 18px;
+    background-color: rgb(130, 18, 182);
+    margin-right: -20px;
+    border-top-right-radius: 27px;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
+}
+.option_group{
+    margin-left: 0;
+    padding-left: 0;
+}
+li
+{
+    list-style-type: none;
+}
+.option
+{
+    border: 3px solid transparent;
+    border-radius: 50px;
+    background-color: rgb(190, 174, 219);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 40px;
+    margin: 10px 10px 10px 0;
+    min-height: 42px;
+    transition: 500ms;
+}
+.option:hover
+{
+    cursor: pointer;
+    border: 3px solid rgb(130, 18, 182);
+}
+.nxtBtn, .rstBtn
+{
+    background-color: rgb(130, 18, 182) !important;
+    border-radius: 50px !important;
+    padding: 15px !important;
+    border: none !important;
+    float: right;
+}
+.active
+{
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 40px;
+    margin: 10px 10px 10px 0;
+    color: white;
+    background-color: rgb(130, 18, 182);
+    border: 3px solid rgb(130, 18, 182);
+    transition: 500ms;
+}
+.exitBtn
+{
+    border-radius: 50px !important;
+    width: 200px;
+    height: 100px;
+    margin-bottom: 20px;
+    font-size: xx-large !important;
+}
+.nxtBtn:focus, .exitBtn:focus, .rstBtn:focus, .startBtn:focus
+{
+    outline: none !important;
+    box-shadow: none !important;
+}
+.nxtBtn:hover, .exitBtn:hover, .rstBtn:hover, .startBtn:hover
+{
+    background-color: white !important;
+    color: black !important;
+    transition: 500ms;
+}

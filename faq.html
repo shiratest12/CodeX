@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Preguntas Frecuentes</title>
+    <script type="module" src="firebase.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+   
+    <link href="navbarlogicacss.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #FF4E50;
+            --secondary-color: #cce209;
+            --background-color: #F9F7F7;
+            --text-color: #e77021;
+        }
+
+
+        .faq-page {
+            padding: 50px 0;
+        }
+
+        .block-heading {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .block-heading h2 {
+            color: var(--primary-color);
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .block-heading p {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        .faq-item {
+        
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .question {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .answer {
+            color: var(--text-color);
+        }
+
+        .answer ul {
+            padding-left: 20px;
+        }
+
+        .answer li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <main class="page faq-page">
+        <section class="clean-block clean-faq dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2>Preguntas Frecuentes</h2>
+                    <p>Resolvemos tus dudas más comunes</p>
+                </div>
+                <div class="block-content">
+                    <div class="faq-item">
+                        <h4 class="question">¿Qué ofrece esta herramienta?</h4>
+                        <div class="answer">
+                            <p>Esta herramienta es un recurso integral para el estudio y la práctica. Se compone de tres secciones principales:</p>
+                            <ul>
+                                <li><strong>Quiz:</strong> Una sección interactiva que permite a los usuarios poner a prueba sus conocimientos a través de cuestionarios.</li>
+                                <li><strong>Blog:</strong> Un espacio para compartir y leer artículos relevantes para el aprendizaje.</li>
+                                <li><strong>Ejercicios:</strong> Esta sección proporciona problemas prácticos y ejercicios para mejorar las habilidades del usuario.</li>
+                            </ul>
+                            <p>El objetivo principal de esta herramienta es ofrecer un recurso de aprendizaje gratuito y accesible para todos.</p>
+                        </div>
+                    </div>
+                    <!--  preguntas -->
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    <div id="footer"></div>
+           <!-- navbar -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module">
+    import { initializeNavbar } from './navbarlogica.js';
+    initializeNavbar();</script>
+
+<script type="module" src="footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js?h=e55bde7d6e36ebf17ba0b8c1e80e4065"></script>
+    <script src="assets/js/baguetteBox.min.js?h=add865daffd8b6e10264279f48d8ac50"></script>
+    <script src="assets/js/vanilla-zoom.js?h=6a37ea9c996b05f763161c73127d66bc"></script>
+    <script src="assets/js/theme.js?h=a083aeb15550c5e1266c666e8a5846d9"></script>
+    <script src="assets/js/bootstrap/js/bootstrap.min.js?h=d2f2ef0051cf284637b29bb4678c1b81"></script>
+    <script src="assets/js/js/pikaday.min.js?h=039feef26d52ebc5f1260a47208bfa38"></script>
+    <script src="assets/js/js/theme.js?h=aeddb9c3ce5d77b8278c91c07acf30ad"></script>
+</body>
+</html>

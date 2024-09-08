@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasifica el Código Dinámico</title>
+    <style>
+  body {
+
+font-family: Arial, sans-serif;
+
+background-color: #f0f0f0;
+
+margin: 0;
+
+padding: 20px;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+}
+
+h1 {
+
+color: #2c3e50;
+
+}
+
+#game-container {
+
+display: flex;
+
+flex-wrap: wrap;
+
+justify-content: space-around;
+
+width: 100%;
+
+max-width: 800px;
+
+margin-top: 20px;
+
+}
+
+.code-container {
+
+width: 30%;
+
+min-height: 300px;
+
+border: 2px solid #3498db;
+
+border-radius: 10px;
+
+padding: 10px;
+
+background-color: #ecf0f1;
+
+margin-bottom: 20px;
+
+}
+
+.code-snippet {
+
+background-color: #ffffff;
+
+border: 1px solid #bdc3c7;
+
+border-radius: 5px;
+
+padding: 10px;
+
+margin: 5px 0;
+
+cursor: move;
+
+}
+
+#python { background-color: #3498db; }
+
+#javascript { background-color: #f1c40f; }
+
+#java { background-color: #e74c3c; }
+
+#score {
+
+font-size: 24px;
+
+font-weight: bold;
+
+margin-top: 20px;
+
+color: #2c3e50;
+
+}
+
+#instructions {
+
+background-color: #2ecc71;
+
+color: white;
+
+padding: 15px;
+
+border-radius: 10px;
+
+margin-top: 20px;
+
+max-width: 600px;
+
+}
+
+#new-game-btn {
+
+margin-top: 20px;
+
+padding: 10px 20px;
+
+font-size: 18px;
+
+background-color: #3498db;
+
+color: white;
+
+border: none;
+
+border-radius: 5px;
+
+cursor: pointer;
+
+}
+
+#new-game-btn:hover {
+
+background-color: #2980b9;
+
+}
+
+@media (max-width: 600px) {
+
+.code-container {
+
+width: 100%;
+
+}
+
+}
+    </style>
+</head>
+<body>
+    <h1>Clasifica el Código Dinámico</h1>
+
+<div id="instructions">
+
+<h2>Instrucciones:</h2>
+
+<ol>
+
+<li>Arrastra los fragmentos de código al contenedor correcto.</li>
+
+<li>Gana 10 puntos por cada clasificación correcta.</li>
+
+<li>Pierde 5 puntos por cada error.</li>
+
+<li>¡Intenta obtener la mayor puntuación posible!</li>
+
+</ol>
+
+</div>
+
+<div id="game-container">
+
+<div id="python" class="code-container" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+<h3>Python</h3>
+
+</div>
+
+<div id="javascript" class="code-container" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+<h3>JavaScript</h3>
+
+</div>
+
+<div id="java" class="code-container" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+<h3>Java</h3>
+
+</div>
+
+</div>
+
+<div id="score">Puntuación: 0</div>
+
+<button id="new-game-btn" onclick="startNewGame()">Nueva Partida</button>
+    <script>
+        const codeSnippetsTemplates = {
+            python: [
+            'def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)',
+            'import random\n\nnumbers = [random.randint(1, 100) for _ in range(10)]\nprint(sorted(numbers))',
+            'class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        pass\n\nclass Dog(Animal):\n    def speak(self):\n        return f"{self.name} says Woof!"',
+            'with open("example.txt", "r") as file:\n    content = file.read()\n    word_count = len(content.split())\nprint(f"The file contains {word_count} words.")',
+            'import numpy as np\n\narray = np.array([1, 2, 3, 4, 5])\nmean = np.mean(array)\nstd = np.std(array)\nprint(f"Mean: {mean}, Standard Deviation: {std}")'
+        ],
+        javascript: [
+            'function quickSort(arr) {\n    if (arr.length <= 1) return arr;\n    const pivot = arr[0];\n    const left = arr.slice(1).filter(x => x < pivot);\n    const right = arr.slice(1).filter(x => x >= pivot);\n    return [...quickSort(left), pivot, ...quickSort(right)];\n}',
+            'const promise1 = Promise.resolve(3);\nconst promise2 = new Promise((resolve) => setTimeout(resolve, 100, "foo"));\nPromise.all([promise1, promise2]).then((values) => {\n    console.log(values);\n});',
+            'class Rectangle {\n    constructor(height, width) {\n        this.height = height;\n        this.width = width;\n    }\n    get area() {\n        return this.calcArea();\n    }\n    calcArea() {\n        return this.height * this.width;\n    }\n}',
+            'const numbers = [1, 2, 3, 4, 5];\nconst doubledNumbers = numbers.map(num => num * 2);\nconsole.log(doubledNumbers);',
+            'fetch("https://api.example.com/data")\n    .then(response => response.json())\n    .then(data => console.log(data))\n    .catch(error => console.error("Error:", error));'
+        ],
+        java: [
+            'public class BubbleSort {\n    public static void bubbleSort(int[] arr) {\n        int n = arr.length;\n        for (int i = 0; i < n-1; i++)\n            for (int j = 0; j < n-i-1; j++)\n                if (arr[j] > arr[j+1]) {\n                    int temp = arr[j];\n                    arr[j] = arr[j+1];\n                    arr[j+1] = temp;\n                }\n    }\n}',
+            'import java.util.stream.IntStream;\n\npublic class StreamExample {\n    public static void main(String[] args) {\n        IntStream.range(1, 11)\n                 .map(x -> x * x)\n                 .filter(x -> x % 2 == 0)\n                 .forEach(System.out::println);\n    }\n}',
+            'public class Singleton {\n    private static Singleton instance;\n    private Singleton() {}\n    public static Singleton getInstance() {\n        if (instance == null) {\n            instance = new Singleton();\n        }\n        return instance;\n    }\n}',
+            'import java.util.Arrays;\n\npublic class LambdaExample {\n    public static void main(String[] args) {\n        String[] names = {"Alice", "Bob", "Charlie"};\n        Arrays.sort(names, (a, b) -> a.compareTo(b));\n        System.out.println(Arrays.toString(names));\n    }\n}',
+            'public class GenericMethod {\n    public static <T> void printArray(T[] array) {\n        for (T element : array) {\n            System.out.print(element + " ");\n        }\n        System.out.println();\n    }\n}'
+        ]
+    };
+    
+
+        let codeSnippets = [];
+        let score = 0;
+
+        // Define la clase UserAdaptiveSystem primero
+        class UserAdaptiveSystem {
+            constructor() {
+                this.userPerformance = {
+                    python: { correct: 0, incorrect: 0 },
+                    javascript: { correct: 0, incorrect: 0 },
+                    java: { correct: 0, incorrect: 0 }
+                };
+                this.difficultyLevels = ['easy', 'medium', 'hard'];
+                this.currentDifficulty = 'medium';
+            }
+
+            updatePerformance(language, isCorrect) {
+                if (isCorrect) {
+                    this.userPerformance[language].correct++;
+                } else {
+                    this.userPerformance[language].incorrect++;
+                }
+                this.adjustDifficulty();
+            }
+
+            adjustDifficulty() {
+                const totalCorrect = Object.values(this.userPerformance).reduce((sum, lang) => sum + lang.correct, 0);
+                const totalIncorrect = Object.values(this.userPerformance).reduce((sum, lang) => sum + lang.incorrect, 0);
+                const totalAttempts = totalCorrect + totalIncorrect;
+
+                if (totalAttempts >= 10) {
+                    const successRate = totalCorrect / totalAttempts;
+                    if (successRate > 0.8 && this.currentDifficulty !== 'hard') {
+                        this.currentDifficulty = 'hard';
+                    } else if (successRate < 0.4 && this.currentDifficulty !== 'easy') {
+                        this.currentDifficulty = 'easy';
+                    } else if (successRate >= 0.4 && successRate <= 0.8 && this.currentDifficulty !== 'medium') {
+                        this.currentDifficulty = 'medium';
+                    }
+                }
+            }
+
+            getSnippetDifficulty(snippet) {
+                const complexity = snippet.split('\n').length;
+                if (complexity <= 3) return 'easy';
+                if (complexity <= 6) return 'medium';
+                return 'hard';
+            }
+
+            selectSnippets(snippets, count) {
+                const difficultySnippets = snippets.filter(snippet => 
+                    this.getSnippetDifficulty(snippet) === this.currentDifficulty
+                );
+                return getRandomElements(difficultySnippets.length > 0 ? difficultySnippets : snippets, count);
+            }
+        }
+
+        // Inicializa adaptiveSystem después de definir la clase
+        const adaptiveSystem = new UserAdaptiveSystem();
+
+        function getRandomElements(arr, n) {
+            const shuffled = [...arr].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, n);
+        }
+
+        function generateCodeSnippets() {
+            codeSnippets = [];
+            Object.entries(codeSnippetsTemplates).forEach(([language, snippets]) => {
+                const adaptedSnippets = adaptiveSystem.selectSnippets(snippets, 2);
+                adaptedSnippets.forEach((snippet, index) => {
+                    codeSnippets.push({
+                        id: `${language}${index + 1}`,
+                        language: language,
+                        code: snippet
+                    });
+                });
+            });
+        }
+
+        function initGame() {
+            const gameContainer = document.getElementById('game-container');
+            codeSnippets.forEach(snippet => {
+                const codeElement = document.createElement('div');
+                codeElement.id = snippet.id;
+                codeElement.className = 'code-snippet';
+                codeElement.draggable = true;
+                codeElement.ondragstart = drag;
+                codeElement.innerText = snippet.code;
+                gameContainer.appendChild(codeElement);
+            });
+            shuffleCodeSnippets();
+        }
+
+        function shuffleCodeSnippets() {
+            const codeSnippetElements = document.querySelectorAll('.code-snippet');
+            const shuffledElements = Array.from(codeSnippetElements).sort(() => Math.random() - 0.5);
+            const gameContainer = document.getElementById('game-container');
+            shuffledElements.forEach(element => gameContainer.appendChild(element));
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            const targetContainer = ev.target.closest('.code-container');
+            
+            if (targetContainer && draggedElement) {
+                const snippetLanguage = codeSnippets.find(s => s.id === data).language;
+                const containerLanguage = targetContainer.id;
+                
+                if (snippetLanguage === containerLanguage) {
+                    targetContainer.appendChild(draggedElement);
+                    score += 10;
+                    draggedElement.style.backgroundColor = '#2ecc71';
+                    adaptiveSystem.updatePerformance(snippetLanguage, true);
+                } else {
+                    score -= 5;
+                    draggedElement.style.backgroundColor = '#e74c3c';
+                    setTimeout(() => {
+                        draggedElement.style.backgroundColor = '#ffffff';
+                    }, 500);
+                    adaptiveSystem.updatePerformance(snippetLanguage, false);
+                }
+                
+                document.getElementById('score').innerText = `Puntuación: ${score}`;
+                
+                if (document.querySelectorAll('.code-snippet').length === 0) {
+                    alert(`¡Juego terminado! Tu puntuación final es: ${score}`);
+                }
+            }
+        }
+
+        function startNewGame() {
+            score = 0;
+            document.getElementById('score').innerText = 'Puntuación: 0';
+            const gameContainer = document.getElementById('game-container');
+            while (gameContainer.querySelector('.code-snippet')) {
+                gameContainer.querySelector('.code-snippet').remove();
+            }
+            adaptiveSystem.userPerformance = {
+                python: { correct: 0, incorrect: 0 },
+                javascript: { correct: 0, incorrect: 0 },
+                java: { correct: 0, incorrect: 0 }
+            };
+            adaptiveSystem.currentDifficulty = 'medium';
+            generateCodeSnippets();
+            initGame();
+        }
+
+        // Iniciar el juego
+        generateCodeSnippets();
+        initGame();
+    </script>
+</body>
+</html>

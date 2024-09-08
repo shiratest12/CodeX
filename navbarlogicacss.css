@@ -1,0 +1,100 @@
+/* Estilos generales de la navbar */
+.navbar {
+    transition: background-color 0.3s ease;
+}
+
+.navbar-brand img {
+    width: 50px;
+    height: auto;
+}
+
+/* Estilos para los botones de la navbar */
+.btn-yellow {
+    background-color: #FFC107;
+    color: #000;
+    border-radius: 20px;
+    padding: 5px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-yellow:hover {
+    background-color: #FFA000;
+    color: #000;
+}
+
+/* Estilos para el toggle de modo oscuro/claro */
+.toggle {
+    width: 60px;
+    height: 30px;
+    background-color: #f1f1f1;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle i {
+    font-size: 18px;
+    color: #f1c40f;
+}
+
+.toggle .ball {
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 3px;
+    transition: transform 0.3s ease;
+}
+
+#toggle:checked + .toggle .ball {
+    transform: translateX(30px);
+}
+
+/* Estilos para el modo oscuro */
+body.dark {
+    background-color: #1a1a1a;
+    color: #f1f1f1;
+}
+
+.dark .navbar {
+    background-color: #333 !important;
+}
+
+.dark .navbar-light .navbar-nav .nav-link {
+    color: #f1f1f1;
+}
+
+.dark .btn-yellow {
+    background-color: #FFA000;
+    color: #000;
+}
+
+.dark .btn-yellow:hover {
+    background-color: #FF8F00;
+}
+
+.dark .toggle {
+    background-color: #333;
+}
+
+.dark .toggle i {
+    color: #f1f1f1;
+}
+
+.dark .toggle .ball {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para las notificaciones */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}

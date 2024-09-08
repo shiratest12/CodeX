@@ -1,0 +1,126 @@
+:root {
+    --primary-color: #4A90E2; /* Azul - concentración y productividad */
+    --secondary-color: #FF6B6B; /* Rojo suave - energía y entusiasmo */
+    --accent-color: #FFD93D; /* Amarillo - estimulación mental y optimismo */
+    --background-color: #F8F9FA; /* Gris claro - calma y neutralidad */
+    --text-color: #333333; /* Gris oscuro - legibilidad */
+    --update-color: #4CAF50; /* Verde - crecimiento y frescura */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+
+#actualizaciones .card {
+    background-color: white;
+    border-left: 5px solid var(--update-color);
+}
+
+#actualizaciones .card-title {
+    color: var(--update-color);
+}
+
+#actualizaciones .card-text {
+    color: var(--text-color);
+}
+
+#actualizaciones .section-title {
+    color: var(--update-color);
+}
+
+.hero-section {
+    background-color: var(--primary-color);
+
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.btn-custom {
+    background-color: yellow;
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 0.75rem 2rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.btn1 {
+    background-color: yellow;
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 0.75rem 2rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+.btn-custom:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.section-title {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.language-card {
+    background-color: white;
+}
+
+.language-quiz-card {
+    background-color: var(--accent-color);
+}
+
+.btn-quiz {
+    background-color: var(--secondary-color);
+    color: rgb(117, 25, 126);
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+}
+
+.resource-card {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.resource-card .card-icon {
+    color: var(--accent-color);
+}
+
+.logo-placeholder img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 1rem; }
